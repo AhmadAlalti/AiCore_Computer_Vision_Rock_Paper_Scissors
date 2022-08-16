@@ -131,3 +131,4 @@ dmypy.json
 #Test_model.py file used to test the model created
 Test_model.py
 CV_RPS_env
+.DS_Store
