@@ -11,3 +11,7 @@
 # Milestone 2
 
 - Created a teachable machine folder that contains images that will help the code recognise the different signals.
+
+# Milestone 3
+
+- Created a virtual working environment using conda and installed required libraries
