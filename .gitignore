@@ -129,4 +129,4 @@ dmypy.json
 .pyre/
 
 #Test_model.py file used to test the model created
-.Test_model.py
+Test_model.py
