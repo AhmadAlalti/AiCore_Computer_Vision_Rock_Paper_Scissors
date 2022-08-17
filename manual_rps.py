@@ -39,7 +39,7 @@ class RPS:
             print(f"You won! the computer picked {computer_choice}")         
 
         elif user_choice == "scissors" and computer_choice == "paper":
-            print(f"You won! the computer picked {self.computer_choice}")
+            print(f"You won! the computer picked {computer_choice}")
             
 def play_game(choices_list):
     game = RPS(choices_list)
