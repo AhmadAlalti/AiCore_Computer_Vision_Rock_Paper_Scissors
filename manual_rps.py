@@ -50,3 +50,5 @@ def play_game(choices_list):
 if __name__ == '__main__':
     choices_list = ['rock', 'paper', 'scissors']
     play_game(choices_list)
+
+#Can add number of rounds, number of wins, while loop until 3 wins, 
