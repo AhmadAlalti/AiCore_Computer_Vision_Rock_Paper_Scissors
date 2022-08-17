@@ -2,6 +2,7 @@ import cv2
 from keras.models import load_model
 import numpy as np
 import random
+import time
 
 
 class RPS:
@@ -10,59 +11,86 @@ class RPS:
         self.model = load_model('Teachable_Machine_keras/keras_model.h5')
         self.cap = cv2.VideoCapture(0)
         self.data = np.ndarray(shape=(1, 224, 224, 3), dtype=np.float32)
+    
+    def count_countdown(self):
+        countdown = 5
+        print("\nPlease prepare to show your choice")
+        while countdown > 0:
+            print(f'{countdown}')
+            cv2.waitKey(1000)
+            countdown -= 1
+        print('\nShow your hand now')
+    
+    # def count_waiting(self):
+    #     counter = 2
+    #     while counter > 0:
+    #         cv2.waitKey(1000)
+    #         print("---Waiting---")
+    #         counter -= 1        
 
-    def get_prediction(self):
-        while True: 
+    def get_user_choice(self):
+        end = time.time() + 3
+        while time.time() < end:
             ret, frame = self.cap.read()
             resized_frame = cv2.resize(frame, (224, 224), interpolation = cv2.INTER_AREA)
             image_np = np.array(resized_frame)
             normalized_image = (image_np.astype(np.float32) / 127.0) - 1 # Normalize the image
-            self.data[0] = normalized_image
-            prediction = self.model.predict(self.data)
             cv2.imshow('frame', frame)
-            # Press q to close the window
-            print(prediction)
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
+        return normalized_image        
 
-        # After the loop release the cap object
-        self.cap.release()
-        # Destroy all the windows
-        cv2.destroyAllWindows()
-        return prediction
+    def get_prediction(self):
+        prediction = self.model.predict(self.data)
+        choice = choices_list[prediction.argmax()]
+        print(f"You chose {choice}")
+        return choice
 
     def get_computer_choice(self):
         computer_choice = random.choice(choices_list)
         return computer_choice
 
-    def get_winner(self, prediction, computer_choice):
-        if prediction == computer_choice:
+    def get_winner(self, choice, computer_choice):
+        choice = self.get_prediction
+        computer_choice = self.get_computer_choice
+        self.count_waiting
+        if choice == computer_choice:
             print(f"Draw! The computer chose {computer_choice}. Same as you!")
 
-        elif prediction == "rock" and computer_choice == "paper":
+        elif choice == "rock" and computer_choice == "paper":
             print(f"You lost! the computer picked {computer_choice}") 
         
-        elif prediction == "paper" and computer_choice == "scissors":
+        elif choice == "paper" and computer_choice == "scissors":
             print(f"You lost! the computer picked {computer_choice}")         
 
-        elif user_choice == "scissors" and computer_choice == "rock":
+        elif choice == "scissors" and computer_choice == "rock":
             print(f"You lost! the computer picked {computer_choice}") 
 
-        elif user_choice == "rock" and computer_choice == "scissors":
+        elif choice == "rock" and computer_choice == "scissors":
             print(f"You won! the computer picked {computer_choice}") 
         
-        elif user_choice == "paper" and computer_choice == "rock":
+        elif choice == "paper" and computer_choice == "rock":
             print(f"You won! the computer picked {computer_choice}")         
 
-        elif user_choice == "scissors" and computer_choice == "paper":
+        elif choice == "scissors" and computer_choice == "paper":
             print(f"You won! the computer picked {computer_choice}")
         
+        else:
+            print("You chose nothing")
+        
 def play_game(choices_list):
-    game = RPS(choices_list)
-    user_choice = game.get_preidction()
+    game = RPS()
+    game.count_countdown()
+    game.get_user_choice()
+    user_choice = game.get_prediction()
     computer_choice = game.get_computer_choice()
     game.get_winner(user_choice, computer_choice)
 
+# After the loop release the cap object
+    game.cap.release()
+# Destroy all the windows
+    game.cv2.destroyAllWindows()
+
 if __name__ == '__main__':
-    choices_list = ['rock', 'paper', 'scissors']
-    play_game(choices_list)
+    choices_list = ['rock', 'paper', 'scissors', 'nothing']
+    play_game()
