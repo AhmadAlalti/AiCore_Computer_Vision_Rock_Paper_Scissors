@@ -63,7 +63,7 @@ class RPS:
             print(f"You won! the computer picked {computer_choice}")
         
         else:
-            print("You chose nothing")
+            print("Restart, and choose something this time!")
         
 def play_game(choices_list):
     game = RPS()
