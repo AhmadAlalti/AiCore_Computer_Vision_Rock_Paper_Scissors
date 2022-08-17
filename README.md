@@ -11,6 +11,7 @@
 # Milestone 2
 
 - Created a teachable machine folder that contains images that will help the code recognise the different signals.
+- Update: Struggling with the model to run the code so imported the model created by CaterinaBi.
 
 # Milestone 3
 
