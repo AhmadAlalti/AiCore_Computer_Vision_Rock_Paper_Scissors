@@ -34,46 +34,32 @@ class RPS:
             cv2.imshow('frame', frame)
             prediction = self.model.predict(self.data)
             print(prediction)
-            choice = choices_list[prediction.argmax()]
-            print(f"You chose {choice}")
+            self.choice = choices_list[prediction.argmax()]
+            print(f"You chose {self.choice}")
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
-        return choice        
+        return self.choice        
 
     def get_computer_choice(self):
         computer_choice = random.choice(choices_list)
         return computer_choice
 
     def get_winner(self, choice, computer_choice):
-        if choice == computer_choice:
+        if self.choice == "nothing":
+            print("Restart, and choose something this time!")
+
+        elif choice == computer_choice:
             print(f"Draw! The computer chose {computer_choice}. Same as you!")
 
-        elif choice == "rock" and computer_choice == "paper":
-            print(f"You lost! the computer picked {computer_choice}")
-            self.computer_wins += 1
-        
-        elif choice == "paper" and computer_choice == "scissors":
-            print(f"You lost! the computer picked {computer_choice}")         
-            self.computer_wins += 1
+        elif (choice == "rock" and computer_choice == "paper") or \
+            (choice == "paper" and computer_choice == "scissors") or \
+            (choice == "scissors" and computer_choice == "rock"):
+                print(f"You lost! the computer picked {computer_choice}")
+                self.computer_wins += 1
 
-        elif choice == "scissors" and computer_choice == "rock":
-            print(f"You lost! the computer picked {computer_choice}") 
-            self.computer_wins += 1
-
-        elif choice == "rock" and computer_choice == "scissors":
-            print(f"You won! the computer picked {computer_choice}") 
-            self.user_wins += 1
-       
-        elif choice == "paper" and computer_choice == "rock":
-            print(f"You won! the computer picked {computer_choice}")         
-            self.user_wins += 1
-
-        elif choice == "scissors" and computer_choice == "paper":
-            print(f"You won! the computer picked {computer_choice}")
-            self.user_wins += 1
-        
         else:
-            print("Restart, and choose something this time!")
+            self.user_wins += 1
+
         
 def play_game(choices_list):
     game = RPS()
