@@ -11,6 +11,8 @@ class RPS:
         self.model = load_model('Teachable_Machine_keras/keras_model.h5')
         self.cap = cv2.VideoCapture(0)
         self.data = np.ndarray(shape=(1, 224, 224, 3), dtype=np.float32)
+        self.computer_wins = 0
+        self.user_wins = 0
     
     def count_countdown(self):
         countdown = 5
@@ -47,32 +49,44 @@ class RPS:
             print(f"Draw! The computer chose {computer_choice}. Same as you!")
 
         elif choice == "rock" and computer_choice == "paper":
-            print(f"You lost! the computer picked {computer_choice}") 
+            print(f"You lost! the computer picked {computer_choice}")
+            self.computer_wins += 1
         
         elif choice == "paper" and computer_choice == "scissors":
             print(f"You lost! the computer picked {computer_choice}")         
+            self.computer_wins += 1
 
         elif choice == "scissors" and computer_choice == "rock":
             print(f"You lost! the computer picked {computer_choice}") 
+            self.computer_wins += 1
 
         elif choice == "rock" and computer_choice == "scissors":
             print(f"You won! the computer picked {computer_choice}") 
-        
+            self.user_wins += 1
+       
         elif choice == "paper" and computer_choice == "rock":
             print(f"You won! the computer picked {computer_choice}")         
+            self.user_wins += 1
 
         elif choice == "scissors" and computer_choice == "paper":
             print(f"You won! the computer picked {computer_choice}")
+            self.user_wins += 1
         
         else:
             print("Restart, and choose something this time!")
         
 def play_game(choices_list):
     game = RPS()
-    game.count_countdown()
-    user_choice = game.get_prediction()
-    computer_choice = game.get_computer_choice()
-    game.get_winner(user_choice, computer_choice)
+    while True:
+        game.count_countdown()
+        user_choice = game.get_prediction()
+        computer_choice = game.get_computer_choice()
+        game.get_winner(user_choice, computer_choice)
+        print(f"Computer wins: {game.computer_wins} ---- User wins: {game.user_wins}")
+
+        if game.user_wins == 3 or game.computer_wins == 3:
+            print(f"The game is over, Computer won {game.computer_wins} and you won {game.user_wins}")
+            break
 
 # After the loop release the cap object
     game.cap.release()
@@ -83,3 +97,4 @@ if __name__ == '__main__':
     choices_list = ['rock', 'paper', 'scissors', 'nothing']
     play_game(choices_list)
 
+#print the countdown in the webcam display, or include a message like "press c to continue"
