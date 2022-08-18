@@ -28,8 +28,10 @@ class RPS:
             resized_frame = cv2.resize(frame, (224, 224), interpolation = cv2.INTER_AREA)
             image_np = np.array(resized_frame)
             normalized_image = (image_np.astype(np.float32) / 127.0) - 1 # Normalize the image
+            self.data[0] = normalized_image
             cv2.imshow('frame', frame)
             prediction = self.model.predict(self.data)
+            print(prediction)
             choice = choices_list[prediction.argmax()]
             print(f"You chose {choice}")
             if cv2.waitKey(1) & 0xFF == ord('q'):
