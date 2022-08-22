@@ -16,8 +16,12 @@
 
 # Milestone 3
 
-- Created a virtual working environment using conda and installed required libraries
+- Created a virtual working environment using conda and installed required libraries.
 
 # Milestone 4
 
-- Created a manual RPS game where the user and the computer choose their option and the code decided the winner
+- Created a manual RPS game where the user and the computer choose their option and the code decided the winner.
+
+# Milestone 5
+
+- Created a camera RPS game that captures the choice of the user and decided the winner by comparing it with the choice of the computer.
